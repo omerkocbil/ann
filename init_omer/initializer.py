@@ -1,9 +1,10 @@
 import collections
-
 import os
 import sys
+
 sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
 from init_omer.uniform_weight import Uniform
+from init_omer.zero_bias import Zero
 
 class Initializer(collections.Mapping):
 
@@ -20,4 +21,4 @@ class Initializer(collections.Mapping):
         return self._d[key]
 
 
-initializer = Initializer(uniform=Uniform())
+initializer = Initializer(uniform=Uniform(), zero=Zero())
