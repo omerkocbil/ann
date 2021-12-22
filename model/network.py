@@ -1,11 +1,16 @@
 import numpy as np
 
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
+from loss.initalizer import loss as lose
+
 class Network():
 
     def __init__(self):
         self.network = []
-        self.weights = []
-        self.biases = []
+        self.weights, self.biases = [], []
     
     def add(self, layer):
         self.network.append(layer)
@@ -50,4 +55,6 @@ class Network():
                 input = output
         
         return output
-            
+    
+    def config(self, loss=None, optimizer='sgd'):
+        self.loss = None if not loss else lose[loss]

@@ -19,5 +19,8 @@ print(model.network)
 print(model.weights)
 print(model.biases)
 
+model.config(loss='categorical_crossentropy',
+             optimizer='sgd')
+
 X = np.array([1, 1, 1, 1])
 model.forward(X)
