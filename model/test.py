@@ -1,4 +1,5 @@
 import numpy as np
+
 import os
 import sys
 
@@ -12,15 +13,20 @@ model = Network()
 model.add(Dense(4, weight_init='uniform', bias_init='zero', 
                 summation='sum', activation='relu'))
 model.add(Dense(8, summation='sum', activation='relu'))
-model.add(Dense(2))
+model.add(Dense(1))
 
 model.build()
 print(model.network)
 print(model.weights)
 print(model.biases)
 
-model.config(loss='categorical_crossentropy',
-             optimizer='sgd')
+model.config(loss='mse', optimizer='sgd')
 
 X = np.array([1, 1, 1, 1])
-model.forward(X)
+y = 7.5
+
+yhat = model.forward(X)
+print(yhat)
+
+loss = model.loss(y, yhat)
+print(loss)

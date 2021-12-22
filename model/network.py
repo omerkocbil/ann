@@ -4,7 +4,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
-from loss.initalizer import loss as lose
+from loss.initializer import loss as lose
 
 class Network():
 
@@ -57,4 +57,7 @@ class Network():
         return output
     
     def config(self, loss=None, optimizer='sgd'):
-        self.loss = None if not loss else lose[loss]
+        self.loss_class = None if not loss else lose[loss]
+    
+    def loss(self, y, yhat):
+        return self.loss_class.calculate(y, yhat)
