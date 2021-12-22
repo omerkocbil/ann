@@ -1,6 +1,9 @@
 import collections
-from categorical_cross_entropy import CategoricalCrossEntropy
-from mean_squared_error import MeanSquaredError
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
+from loss.mean_squared_error import MeanSquaredError
 
 class Initializer(collections.Mapping):
 
@@ -17,5 +20,4 @@ class Initializer(collections.Mapping):
         return self._d[key]
 
 
-loss = Initializer(categorical_crossentropy=CategoricalCrossEntropy(),
-                   mse=MeanSquaredError())
+loss = Initializer(mse=MeanSquaredError())
