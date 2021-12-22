@@ -12,3 +12,8 @@ model.add(Dense(4, weight_init='uniform', bias_init='zero',
                 summation='sum', activation='relu'))
 model.add(Dense(8, summation='sum', activation='relu'))
 model.add(Dense(2))
+
+model.build()
+print(model.network)
+print(model.weights)
+print(model.biases)
