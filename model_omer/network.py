@@ -1,8 +1,4 @@
-import os
-import sys
-
-sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
-from layer_omer.dense import Dense
+import numpy as np
 
 class Network():
 
@@ -35,6 +31,23 @@ class Network():
                 bias = self.network[layer].bias_init.build()
                 self.network[layer].bias = bias
                 self.biases.append(bias)
+    
+    def forward(self, X):
+        if not self.weights:
+            self.build()
         
+        input = X
+        for layer in range(len(self.network)):
+            if layer == 0:
+                continue
+            
+            w_x = np.multiply(input, self.network[layer].weights)    
+            output = self.network[layer].summation.forward(w_x)
+            output = output + self.network[layer].bias
+            output = self.network[layer].activation.forward(output)
+            
+            if layer != len(self.network) - 1:
+                input = output
         
+        return output
             

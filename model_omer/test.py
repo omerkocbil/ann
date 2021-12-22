@@ -1,3 +1,4 @@
+import numpy as np
 import os
 import sys
 
@@ -17,3 +18,6 @@ model.build()
 print(model.network)
 print(model.weights)
 print(model.biases)
+
+X = np.array([1, 1, 1, 1])
+model.forward(X)
