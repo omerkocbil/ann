@@ -6,10 +6,7 @@ class MeanSquaredError():
         return
     
     def calculate(self, y, yhat):
-        if isinstance(yhat, float):
-            return (y - yhat) ** 2
-        elif isinstance(yhat, np.ndarray):
-            loss = np.subtract(y, yhat)
-            loss = np.square(loss)
-            loss = loss.sum() / len(yhat)
-            return loss
+        loss = np.subtract(y, yhat)
+        loss = np.square(loss)
+        loss = loss.sum() / len(yhat)
+        return loss
