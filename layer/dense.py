@@ -2,9 +2,9 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
-from init_omer.initializer import initializer
-from summation_omer.initializer import summation as summate
-from activation_omer.initalizer import activation as activate
+from layer_initialization.initializer import initializer
+from summation.initializer import summation as summate
+from activation.initalizer import activation as activate
 
 class Dense():
 

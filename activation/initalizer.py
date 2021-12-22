@@ -3,7 +3,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
-from summation_omer.sum import Sum
+from activation.relu import ReLu
 
 class Initializer(collections.Mapping):
 
@@ -20,4 +20,4 @@ class Initializer(collections.Mapping):
         return self._d[key]
 
 
-summation = Initializer(sum=Sum())
+activation = Initializer(relu=ReLu())
