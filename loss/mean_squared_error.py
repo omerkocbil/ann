@@ -10,3 +10,6 @@ class MeanSquaredError():
         loss = np.square(loss)
         loss = loss.sum() / len(yhat)
         return loss
+    
+    def backward(self, y, yhat):
+        return -2 * np.mean(np.subtract(y, yhat))
