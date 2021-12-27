@@ -10,3 +10,6 @@ class ReLu():
             return np.max(0, output)
         elif isinstance(output, np.ndarray):
             return np.maximum(np.zeros(output.size), output)
+    
+    def backward(self, net):
+        return 1 if net > 0 else 0
