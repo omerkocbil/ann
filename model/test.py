@@ -22,11 +22,13 @@ print(model.biases)
 
 model.config(loss='mse', optimizer='sgd')
 
-X = np.array([1, 1, 1, 1])
-y = 7.5
+X = np.array([1, 2, -1, 0.5])
+y = [7.5]
 
 yhat = model.forward(X)
 print(yhat)
 
 loss = model.loss(y, yhat)
 print(loss)
+
+model.backward(y, yhat)
