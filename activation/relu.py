@@ -12,4 +12,10 @@ class ReLu():
             return np.maximum(np.zeros(output.size), output)
     
     def backward(self, net):
-        return 1 if net > 0 else 0
+        if isinstance(net, float):
+            net = 1 if net>0 else 0
+        elif isinstance(net, np.ndarray):
+            net[net>0], net[net<=0] = 1, 0
+        
+        dnet = net
+        return dnet
