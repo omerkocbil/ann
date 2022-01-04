@@ -10,5 +10,5 @@ class Sum():
         elif wn_xn.ndim == 2:
             return wn_xn.sum(axis=1)
     
-    def backward(self):
-        pass
+    def backward(self, output):
+        return output
