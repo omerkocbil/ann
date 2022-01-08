@@ -3,11 +3,12 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
 from model.network import Network #TODO this will change to new Network
-from layer.dense import Dense
+from layer.densev2 import Dense
 from loss.mean_squared_error import MeanSquaredError
 # from optimizer.sgd import SGD
 
 import numpy as np
+np.random.seed(1)
 
 class CustomModel(Network):
 
@@ -15,19 +16,13 @@ class CustomModel(Network):
         super().__init__()
 
         
-        self.input_layer = Dense(4, weight_init='uniform', bias_init='zero', summation='sum', activation='relu')
-        self.hidden_layer_1 = Dense(8, summation='sum', activation='relu')
-        self.output_layer = Dense(1)
-
-        self.criterion = MeanSquaredError()
-        # self.optimizer = SGD()
-
-        self.build() #implement that for new Network
+        self.hidden_layer_1 = Dense(4,8, weight_init='uniform', bias_init='zero', summation='sum', activation='relu')
+        self.output_layer = Dense(8,1, summation='sum', activation='relu')
+        self.config(loss='mse', optimizer='sgd')
 
 
     def forward(self, X):
-        x = self.input_layer(X)
-        x = self.hidden_layer_1(x)
+        x = self.hidden_layer_1(X)
         x = self.output_layer(x)
 
         return x
