@@ -38,7 +38,9 @@ class Network():
                 self.network[layer].bias = bias
                 self.biases.append(bias)
         
-        self.dweights = self.weights.copy()
+        self.dweights = []
+        for layer in range(len(self.weights)):
+            self.dweights.append(np.full_like(self.weights.copy()[layer], 0))
     
     def forward(self, X):
         if not self.weights:
@@ -65,8 +67,9 @@ class Network():
         
         return output
     
-    def config(self, loss=None, optimizer='sgd'):
+    def config(self, loss=None, optimizer=None):
         self.loss_class = None if not loss else lose[loss]
+        self.optimizer = optimizer
     
     def loss(self, y, yhat):
         return self.loss_class.calculate(y, yhat)
@@ -94,5 +97,10 @@ class Network():
                             dactivation = layer.activation.backward(self.nets[current_layer][from_neuron])
                             dsummation = layer.summation.backward(self.outputs[current_layer-1][to_neuron])
                             self.dweights[current_layer-1][from_neuron][to_neuron] = doutputs[-1][from_neuron] * dactivation * dsummation
-            
-        return self.dweights
+        
+        self.weights = self.update_params(self.weights, self.dweights)
+        
+        return self.dweights, self.weights
+    
+    def update_params(self, weights, dweights):
+        return self.optimizer.update_params(weights, dweights)
