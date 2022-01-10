@@ -4,6 +4,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
 from activation.relu import ReLu
+from activation.sigmoid import Sigmoid
 
 class Initializer(collections.Mapping):
 
@@ -20,4 +21,4 @@ class Initializer(collections.Mapping):
         return self._d[key]
 
 
-activation = Initializer(relu=ReLu())
+activation = Initializer(relu=ReLu(), sigmoid=Sigmoid())
