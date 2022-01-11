@@ -4,6 +4,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))))
 from loss.mean_squared_error import MeanSquaredError
+from loss.binary_cross_entropy import BinaryCrossEntropy
 
 class Initializer(collections.Mapping):
 
@@ -20,4 +21,4 @@ class Initializer(collections.Mapping):
         return self._d[key]
 
 
-loss = Initializer(mse=MeanSquaredError())
+loss = Initializer(mse=MeanSquaredError(), binary_crossentropy=BinaryCrossEntropy())
