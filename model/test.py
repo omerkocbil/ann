@@ -1,5 +1,4 @@
 import numpy as np
-import pdb
 
 import os
 import sys
@@ -14,14 +13,16 @@ model = Network()
 
 model.add(Dense(2, weight_init='uniform', bias_init='zero', 
                 summation='sum', activation='relu'))
-model.add(Dense(8, summation='sum', activation='relu'))
-model.add(Dense(1))
+model.add(Dense(16, summation='sum', activation='relu'))
+#model.add(Dense(16, summation='sum', activation='relu'))
+#model.add(Dense(16, summation='sum', activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
 
 model.build()
 print(model.weights)
 
 SGD = optimizer.SGD(learning_rate=0.01)
-model.config(loss='mse', optimizer=SGD)
+model.config(loss='binary_crossentropy', optimizer=SGD)
 
 X = np.array([[0, 1], [1, 0], [1, 1], [0, 0]])
 y = [[1], [1], [0], [0]]
