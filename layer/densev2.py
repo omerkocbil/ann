@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.join(os.path.realpath(os.path.join(os.path.dirname(__
 from layer_initialization.initializer import initializer
 from summation.initializer import summation as summate
 from activation.initalizer import activation as activate
-
+from model.networkv2 import Network
 
 class Dense():
 
@@ -33,6 +33,7 @@ class Dense():
     def __call__(self, input):
         w_x = np.multiply(input, self.weights)
         output = self.summation.forward(w_x)
-        output = output + self.bias
-        output = self.activation.forward(output)
+        to_activition = output + self.bias
+        output = self.activation.forward(to_activition)
+        Network.graph.append([self, output, to_activition])
         return output

@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 class ReLu():
     
@@ -12,6 +13,7 @@ class ReLu():
             return np.maximum(np.zeros(output.size), output)
     
     def backward(self, net):
+        net = copy.copy(net)
         if isinstance(net, float):
             net = 1 if net>0 else 0
         elif isinstance(net, np.ndarray):
