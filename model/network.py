@@ -34,7 +34,7 @@ class Network():
                 self.network[layer].weights = weights
                 self.weights.append(weights)
                 
-                bias = self.network[layer].bias_init.build()
+                bias = self.network[layer].bias_init.build(self.network[layer].neuron)
                 self.network[layer].bias = bias
                 self.biases.append(bias)
         

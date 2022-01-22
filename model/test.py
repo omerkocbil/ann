@@ -19,6 +19,7 @@ model.add(Dense(1, activation='sigmoid'))
 
 model.build()
 print(model.weights)
+print(model.biases)
 
 SGD = optimizer.SGD(learning_rate=0.01)
 model.config(loss='binary_crossentropy', optimizer=SGD)
