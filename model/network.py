@@ -34,13 +34,17 @@ class Network():
                 self.network[layer].weights = weights
                 self.weights.append(weights)
                 
-                bias = self.network[layer].bias_init.build()
+                bias = self.network[layer].bias_init.build(self.network[layer].neuron)
                 self.network[layer].bias = bias
                 self.biases.append(bias)
         
         self.dweights = []
         for layer in range(len(self.weights)):
             self.dweights.append(np.full_like(self.weights.copy()[layer], 0))
+        
+        self.dbiases = []
+        for layer in range(len(self.biases)):
+            self.dbiases.append(np.full_like(self.biases.copy()[layer], 0))
     
     def forward(self, X):
         if not self.weights:
@@ -97,10 +101,12 @@ class Network():
                             dactivation = layer.activation.backward(self.nets[current_layer][from_neuron])
                             dsummation = layer.summation.backward(self.outputs[current_layer-1][to_neuron])
                             self.dweights[current_layer-1][from_neuron][to_neuron] = doutputs[-1][from_neuron] * dactivation * dsummation
+                        self.dbiases[current_layer-1][from_neuron] = doutputs[-1][from_neuron] * dactivation * 1
         
-        self.weights = self.update_params(self.weights, self.dweights)
+        self.weights, self.biases = self.update_params(weights=self.weights, dweights=self.dweights, 
+                                                       biases=self.biases, dbiases=self.dbiases)
         
-        return self.dweights, self.weights
+        return self.dweights, self.weights, self.dbiases, self.biases
     
-    def update_params(self, weights, dweights):
-        return self.optimizer.update_params(weights, dweights)
+    def update_params(self, *, weights, dweights, biases, dbiases):
+        return self.optimizer.update_params(weights, dweights, biases, dbiases)

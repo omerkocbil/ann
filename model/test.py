@@ -19,6 +19,7 @@ model.add(Dense(1, activation='sigmoid'))
 
 model.build()
 print(model.weights)
+print(model.biases)
 
 SGD = optimizer.SGD(learning_rate=0.01)
 model.config(loss='binary_crossentropy', optimizer=SGD)
@@ -26,7 +27,7 @@ model.config(loss='binary_crossentropy', optimizer=SGD)
 X = np.array([[0, 1], [1, 0], [1, 1], [0, 0]])
 y = [[1], [1], [1], [0]]
 
-for epoch in range(2500):
+for epoch in range(10000):
     for i, x in enumerate(X):
         yhat = model.forward(x)
         print(yhat, end=' ')
@@ -34,7 +35,7 @@ for epoch in range(2500):
         loss = model.loss(y[i], yhat)
         #print('loss:', loss)
 
-        dw, w = model.backward(y[i], yhat)
+        dw, w, db, b = model.backward(y[i], yhat)
         #print('dweights:', dw)
         #print('weights:', w)
     
