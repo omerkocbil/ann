@@ -110,3 +110,21 @@ class Network():
     
     def update_params(self, *, weights, dweights, biases, dbiases):
         return self.optimizer.update_params(weights, dweights, biases, dbiases)
+    
+    def backward2(self, y):
+        dinputs = self.loss_class.backward(y, self.outputs[-1])
+        for i in range(len(self.network)-1):
+            layer = self.network[-(i+1)]
+            net = self.nets[-(i+1)]
+            dvalues = np.multiply(dinputs, layer.activation.backward(net))
+            dinputs = np.matmul(dvalues.T, layer.weights)
+            
+            outputs = np.expand_dims(self.outputs[-(i+2)], axis=1)
+            dvalues = np.expand_dims(dvalues, axis=1)
+            self.dweights[-(i+1)] = np.multiply(outputs.T, dvalues)
+            self.dbiases[-(i+1)] = dvalues.reshape(len(dvalues),) * 1
+        
+        self.weights, self.biases = self.update_params(weights=self.weights, dweights=self.dweights, 
+                                                       biases=self.biases, dbiases=self.dbiases)
+
+        return self.dweights, self.weights, self.dbiases, self.biases
