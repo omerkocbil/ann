@@ -12,6 +12,7 @@ class Network():
         self.network = []
         self.weights, self.biases, = [], []
         self.nets, self.outputs = [], []
+        self.dweights, self.dbiases = [], []
     
     def add(self, layer):
         self.network.append(layer)
@@ -22,10 +23,7 @@ class Network():
         elif len(self.network) < 3:
             return "The network must contain at least 1 hidden layer"
         
-        self.network[0].weight_init = None
-        self.network[0].bias_init = None
-        self.network[0].summation = None
-        self.network[0].activation = None
+        self.network[0].__dict__ = {'neuron': self.network[0].__dict__['neuron']}
         
         for layer in range(len(self.network)):
             if layer != 0:
@@ -38,13 +36,8 @@ class Network():
                 self.network[layer].bias = bias
                 self.biases.append(bias)
         
-        self.dweights = []
-        for layer in range(len(self.weights)):
-            self.dweights.append(np.full_like(self.weights.copy()[layer], 0))
-        
-        self.dbiases = []
-        for layer in range(len(self.biases)):
-            self.dbiases.append(np.full_like(self.biases.copy()[layer], 0))
+        self.dweights = [np.full_like(self.weights[layer], 0) for layer in range(len(self.weights))]
+        self.dbiases = [np.full_like(self.biases[layer], 0) for layer in range(len(self.biases))]
     
     def forward(self, X):
         if not self.weights:
@@ -53,13 +46,9 @@ class Network():
         input = X.copy()
         self.nets.append(input)
         self.outputs.append(input)
-        for layer in range(len(self.network)):
-            if layer == 0:
-                continue
-            
+        for layer in range(1, len(self.network)):    
             w_x = np.multiply(input, self.network[layer].weights)    
             output = self.network[layer].summation.forward(w_x)
-            
             output = output + self.network[layer].bias
             self.nets.append(output)
             
@@ -115,6 +104,7 @@ class Network():
         dinputs = self.loss_class.backward(y, self.outputs[-1])
         for i in range(len(self.network)-1):
             layer = self.network[-(i+1)]
+            
             net = self.nets[-(i+1)]
             dvalues = np.multiply(dinputs, layer.activation.backward(net))
             dinputs = np.matmul(dvalues.T, layer.weights)
