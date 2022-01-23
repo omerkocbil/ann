@@ -14,29 +14,49 @@ model = Network()
 
 model.add(Dense(2, weight_init='uniform', bias_init='zero', 
                 summation='sum', activation='relu'))
-model.add(Dense(2, summation='sum', activation='relu'))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(8, summation='sum', activation='relu'))
+model.add(Dense(1, activation='relu'))
 
 model.build()
 print(model.weights)
 print(model.biases)
 
 SGD = optimizer.SGD(learning_rate=0.01)
-model.config(loss='binary_crossentropy', optimizer=SGD)
+model.config(loss='mse', optimizer=SGD)
 
-X = np.array([[0, 1], [1, 0], [1, 1], [0, 0]])
+X = np.array([[1, 1], [1, 0], [1, 1], [0, 0]])
 y = [[1], [1], [1], [0]]
 
-for epoch in range(10000):
+for epoch in range(1):
     for i, x in enumerate(X):
         yhat = model.forward(x)
         print(yhat, end=' ')
 
         loss = model.loss(y[i], yhat)
-        #print('loss:', loss)
+        print('loss:', loss)
 
         dw, w, db, b = model.backward(y[i], yhat)
-        #print('dweights:', dw)
-        #print('weights:', w)
+        print('dweights:', dw)
+        print('weights:', w)
+        print('dbiases:', db)
+        print('biases:', b)
+        break
+    
+    print()
+    
+for epoch in range(1):
+    for i, x in enumerate(X):
+        yhat = model.forward(x)
+        print(yhat, end=' ')
+
+        loss = model.loss(y[i], yhat)
+        print('loss:', loss)
+
+        dw, w, db, b = model.backward2(y[i])
+        print('dweights:', dw)
+        print('weights:', w)
+        print('dbiases:', db)
+        print('biases:', b)
+        break
     
     print()
